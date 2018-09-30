@@ -1,13 +1,14 @@
 <html>
 <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
  --><title>Contact Us</title>
 </head>
-<body style="background-color:rgb(180,180,180)">
+<body style="background-color:rgb(93,241,255)">
 <%@include file="Header.jsp" %>
-<br></br>
+<br><br></br></br>
 <div class="jumbotron jumbotron-sm">
     <div class="container">
         <div class="row">
@@ -67,7 +68,7 @@
         </div>
         <div class="col-md-4">
             <form>
-            <legend><span class="glyphicon glyphicon-globe"></span> Our office</legend>
+            <legend><i class="fa fa-address-card-o" style="font-size:24px"></i>&nbsp Our office</legend>
             <address>
                 <strong>Office Address.</strong><br>
                 228/8910, Kannamwar Nagar<br>
@@ -84,4 +85,5 @@
         </div>
     </div>
 </div>
+<%@include file="/WEB-INF/views/Footer.jsp" %>
 </body></html>

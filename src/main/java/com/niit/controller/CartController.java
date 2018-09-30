@@ -58,9 +58,9 @@ public class CartController
 	}
 	
 	@RequestMapping("/addToCart/{productId}")
-	public String addToCart(@PathVariable("productId")int productId,@RequestParam("quantity")int quantity,@ModelAttribute("user")User user,HttpSession session,Model m)
+	public String addToCart(@ModelAttribute("product")Product product,@PathVariable("productId")int productId,@RequestParam("quantity")int quantity,@ModelAttribute("user")User user,HttpSession session,Model m)
 	{
-		Product product=productDAO.getProduct(productId);
+		product=productDAO.getProduct(productId);
 		
 		CartItem cartItem=new CartItem();
 		
@@ -73,7 +73,22 @@ public class CartController
 		cartItem.setQuantity(quantity);
 		cartItem.setPstatus("NP");
 		
-		m.addAttribute("cartItems",cartDAO.addCartItem(cartItem));		
+		System.out.println("ProductId :"+product.getProductId()+"Quantity of product :"+product.getQuantity()+"Quantity in cart :"+cartItem.getQuantity());
+
+		int i=product.getQuantity()-cartItem.getQuantity();
+		
+		System.out.println("Product Quantity Updated :"+i);
+		
+		product.setQuantity(i);
+		productDAO.updateProduct(product);
+		
+		m.addAttribute("cartItems",cartDAO.addCartItem(cartItem));	
+		m.addAttribute("cartItem",cartItem);
+		
+		
+		List<CartItem> cartItemList=cartDAO.retrieveCartItems(username);
+		m.addAttribute("cartItemList",cartItemList);
+		m.addAttribute("grandTotalPrice",this.calcGrandTotalValue(cartItemList));
 		return "Cart";
 	}
 	
@@ -91,7 +106,12 @@ public class CartController
 		List<CartItem> listCartItems=cartDAO.retrieveCartItems(username);
 		m.addAttribute("cartItems",cartDAO.retrieveCartItems(username));
 		m.addAttribute("grandTotalPrice",this.calcGrandTotalValue(listCartItems));
+		m.addAttribute("cartItem",cartItem);
 		
+		
+		List<CartItem> cartItemList=cartDAO.retrieveCartItems(username);
+		m.addAttribute("cartItemList",cartItemList);
+		m.addAttribute("grandTotalPrice",this.calcGrandTotalValue(cartItemList));
 		return "Cart";
 	}
 	
@@ -106,16 +126,20 @@ public class CartController
 		List<CartItem> listCartItems=cartDAO.retrieveCartItems("username");
 		m.addAttribute("cartItems",cartDAO.retrieveCartItems(username));
 		m.addAttribute("grandTotalPrice",this.calcGrandTotalValue(listCartItems));
+		m.addAttribute("cartItem",cartItem);
 		
+		
+		List<CartItem> cartItemList=cartDAO.retrieveCartItems(username);
+		m.addAttribute("cartItemList",cartItemList);
+		m.addAttribute("grandTotalPrice",this.calcGrandTotalValue(cartItemList));
 		return "Cart";
 	}
 	
 	@RequestMapping(value="/CheckOut")
-	public String CheckOut(HttpSession session,Model m)
+	public String CheckOut(@ModelAttribute("cartItem")CartItem cartItem,HttpSession session,Model m)
 	{
 		String username=(String)session.getAttribute("username");
 		
-		CartItem cartItem=new CartItem();
 		m.addAttribute("cartItem",cartItem);
 		
 		List<CartItem> cartItemList=cartDAO.retrieveCartItems(username);
@@ -128,16 +152,16 @@ public class CartController
 		return "OrderDetail";
 	}
 	
-	public LinkedHashMap<Integer,String> getCartItemList(List<CartItem> CartItemlist)
-	{
-		LinkedHashMap<Integer,String> cartItemData=new LinkedHashMap<Integer,String>();
-		
-		int count=0;
-		while(count<CartItemlist.size())
+		public LinkedHashMap<Integer,String> getCartItemList(List<CartItem> CartItemlist)
 		{
-			cartItemData.put(CartItemlist.get(count).getCartItemId(),CartItemlist.get(count).getUsername());
-			count++;
+			LinkedHashMap<Integer,String> cartItemData=new LinkedHashMap<Integer,String>();
+		
+			int count=0;
+			while(count<CartItemlist.size())
+			{
+				cartItemData.put(CartItemlist.get(count).getCartItemId(),CartItemlist.get(count).getUsername());
+				count++;
+			}
+			return cartItemData;
 		}
-		return cartItemData;
-	}
 }

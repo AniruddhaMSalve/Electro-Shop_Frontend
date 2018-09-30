@@ -8,9 +8,9 @@
  --><meta charset="ISO-8859-1">
 <title>About Us</title>
 </head>
-<body style="background-color:rgb(180,180,180)">
+<body style="background-color:rgb(93,241,255)">
 <%@include file="Header.jsp" %>
-<br></br>
+<br></br><br></br><br></br>
 <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 
 <div class="aboutus-section">
@@ -21,7 +21,7 @@
                         <h2 class="aboutus-title">About Us</h2>
                         <p class="aboutus-text">Electro-Shop is one of the few online market dealing with electronics components.</p>
                         <p class="aboutus-text">We believe in providing quality products with best possible prices.</p>
-                        <a class="aboutus-more" href="contactus.jsp">Contact Us</a>
+                        <a class="aboutus-more" href="<c:url value="/ContactUs"/>">Contact Us</a>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6 col-xs-12">
@@ -68,5 +68,5 @@
                 </div>
             </div>
         </div>
-    </div></body>
+    </div><%@include file="/WEB-INF/views/Footer.jsp" %></body>
 </html>

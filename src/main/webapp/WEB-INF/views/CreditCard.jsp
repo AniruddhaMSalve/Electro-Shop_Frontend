@@ -107,99 +107,37 @@
 <body style="background-color:rgb(93,241,255)">
 <%@include file="Header.jsp"%>
 <br><br></br></br>
-<h2 align="center"><b><u>You are not authorized to access this page.</u></b></h2>
-</c:if>
-<c:if test="${sessionScope.role=='ROLE_ADMIN' }">
-<body style="background-color:rgb(93,241,255)">
-<%@include file="Header.jsp"%>
-<br><br></br></br>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
-<c:if test="${flag}">
-	<form:form action="addCategory" modelAttribute="category" method="post">
-		<table align="center">
-
-			<tr>
-				<td colspan="2"><center>
-						<b><u>Enter Category Details</u></b><br></br>
-					</center></td>
-			</tr>
-			<tr>
-				<td><b>Category Name</b></td>
-				<td>&nbsp<form:input path="categoryName" required="required"/></td>
-			</tr>
-
-			<tr>
-				<td><b>Category Description</b></td>
-				<td>&nbsp<form:input path="categoryDesc" required="required"/></td>
-			</tr>
-
-			<tr>
-				<td colspan="2"><center>
-						</br> <input type="submit" value="Insert Category"
-							class="btn btn-primary" />
-					</center></td>
-
-			</tr>
-		</table>
-	</form:form>
-</c:if>
-
-<c:if test="${!flag}">
-<form:form action="http://localhost:8080/Electro-Shop_Frontend/UpdateCategory/${category.categoryId }" modelAttribute="category" method="post" >
-<table align="center">
-
-<tr>
-	<td colspan="2"><center><b><u>Update Category Details</u></b></br></center></td>
-</tr>
-<tr>
-	<td><b>Category Name</b></td>
-	<td>&nbsp<form:input path="CategoryName" required="required"/></td>
-</tr>
-<tr>
-	<td><b>Category Desc</b></td>
-	<td>&nbsp<form:input path="CategoryDesc" required="required"/></td>
-</tr>
-<tr>
-	<td colspan="2"><br></br><center>
-	<input type="submit" value="Update Product" class="btn btn-info"/>
-	</center>
-	</td>
-
-</tr>
+<form action="<c:url value="/PaymentProcess"/>" method="post">
+<table align="center" width="40%" class="yable table-bordered">
+	<tr><td colspan="5"><h3 align="center"><b><u>Payment Using Credit Card</u></b></h3></td></tr>
+	<tr>
+		<td><b>Credit Card</b></td>
+		<td input type="text" name="ccard" required="required"></td>	
+	</tr>
+	<tr>
+		<td><b>Card Number</b></td>
+		<td><input type="text" name="cNo" maxlength="16" required="required"/></td>
+	</tr>
+	<tr>
+		<td><b>Validity</b></td>
+		<td><input type="text" name="validity" maxlength="10" required="required"/></td>
+	</tr>
+	<tr>
+		<td><b>CVV</b></td>
+		<td><input type="text" name="cvv" maxlength="3" required="required"/></td>
+	</tr>
+	<tr>
+		<td><b>Name on card</b></td>
+		<td><input type="text" name="cname" required="required"/></td>
+	</tr>
+	<tr>
+		<td><b>Agree Terms and Conditions</b></td>
+		<td><input type="radio" name="pmode" value="CC" required="required"/></td>
+	</tr>
+	<tr>
+		<td colspan="2"><input type="submit" value="Process Request" class="btn btn-danger"></td>
+	</tr>
 </table>
-</form:form>
-</c:if>
-
-
-<c:if test="${flag}">
-	<table align="center" class="table table-striped">
-		<tr>
-			<td bgcolor="" colspan="5"><center>
-					<h3>
-						<b>Category Details</b>
-					</h3>
-				</center></td>
-		</tr>
-		<tr>
-			<td><b>Category Id</b></td>
-			<td><b>Category Name</b></td>
-			<td><b>Category Description</b></td>
-			<td><b>Operation</b></td>
-		</tr>
-		<c:forEach items="${categoryList}" var="category">
-			<tr>
-				<td>${category.categoryId }</td>
-				<td>${category.categoryName }</td>
-				<td>${category.categoryDesc }</td>
-				<td><a
-					href="<c:url value="/deleteCategory/${category.categoryId }"/>"
-					class="btn btn-danger">Delete</a></td> 
-					<td><a href="<c:url value="/editCategory/${category.categoryId }"/>"
-					class="btn btn-warning">Edit</a></td>
-			</tr>
-		</c:forEach>
-	</table>
-</c:if>
+</form>
 <%@include file="/WEB-INF/views/Footer.jsp" %>
 </body></c:if></c:if>

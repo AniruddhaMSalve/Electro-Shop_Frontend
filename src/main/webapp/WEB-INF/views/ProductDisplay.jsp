@@ -1,5 +1,61 @@
-<body style="background-color:rgb(180,180,180)">
+<body style="background-color:rgb(93,241,255)">
 <%@include file="Header.jsp"%>
+<br><br></br></br>
+
+<c:if test="${!sessionScope.loggedIn }">
+<h2 align="center"><b>Please <a class="btn btn-lg btn-warning site-btn" href="<c:url value="/Login"/>">Login</a>&nbspor&nbsp<a class="btn btn-lg btn-warning site-btn" href="<c:url value="/Register"/>">Sign Up</a> Before You Continue.</b></h2>
+<div>
+    <div>
+      <div class="container">
+        <div>
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <h1>Buy at <br>Electro-Shop</h1>
+                    <h3>Find best product at your prices.</h3>
+                    <c:if test="${!sessionScope.loggedIn }">
+                    </c:if>
+                </div>
+                <div class="col-md-6">
+                   <img src="http://wpocean.com/tf/html/naima/assets/img/app/about-app.png"class="img-responsive">
+                </div>
+                
+            </div>
+        
+        </div>
+      </div>
+    </div>
+    </div>
+
+<h3 align="center"><b>Some of our products</b></h3>    
+    <br></br>    
+    
+
+<div class="container">
+	<div class="row">
+		<c:forEach items="${productList}" var="product">
+
+			<div class="column">
+				<div class="col-md-4 col-xs-12 col-sm-6">
+					<div class="thumbnail">
+						<h4>
+							<span data-toggle="tooltip" title="Bootstrap version">${product.productName}&nbsp;
+								Rs.${product.price}/-</span>
+						</h4>
+						<img src="<c:url value="/resources/images/${product.productId}.jpg"/>" style="width:128px;height:128px;" alt="Image Not Supported"/> 
+							<a href="<c:url value="/ProductDisplay/${product.productId}"/>"
+							class="btn btn-primary col-xs-12" role="button">View Product</a>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</c:forEach>
+	</div>
+</div>
+</c:if>
+
+
+<c:if test="${sessionScope.loggedIn }">
+
 <div class="container">
 <form action="<c:url value="/addToCart/${product.productId}"/>" method="get">
 <table align="center" class="table">
@@ -9,34 +65,36 @@
 	</td>
 </tr>
 <tr>
-	<td>Product Id</td>
+	<td><b>Product Id</b></td>
 	<td>${product.productId}</td>
 </tr>
 
 <tr>
-	<td>Product Name</td>
+	<td><b>Product Name</b></td>
 	<td>${product.productName}</td>
 </tr>
 
 <tr>
-	<td>Price</td>
+	<td><b>Price</b></td>
 	<td>${product.price}</td>
 </tr>
 
 <tr>
-	<td>Supplier Id</td>
+	<td><b>Supplier Id</b></td>
 	<td>${product.supplierId}</td>
 </tr>
 
 <tr>
-	<td>Product Description</td>
+	<td><b>Product Description</b></td>
 	<td>${product.productDesc}</td>
 </tr>
 <tr>
-	<td>Quantity</td>
+	<td><b>Quantity</b></td>
 	<td><input type="text" name="quantity" required></td>
 </tr>
 </table>
-<h3 align="center"><input type="Submit" value="ADD TO CART" class="btn btn-primary"/></h3>
+<h3 align="center"><input type="Submit" value="ADD TO CART" class="btn btn-success"/></h3>
 </form>
-</div></body>
+</div>
+</c:if><%@include file="/WEB-INF/views/Footer.jsp" %>
+</body>
