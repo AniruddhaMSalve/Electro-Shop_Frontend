@@ -56,6 +56,7 @@ public class PageController
 		return "Login";
 	}
 	
+	
 	@RequestMapping("/Register")
 	public String Register()
 	{

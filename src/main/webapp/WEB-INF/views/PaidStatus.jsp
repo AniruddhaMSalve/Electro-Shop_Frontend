@@ -104,31 +104,42 @@
 </c:if>
 <c:if test="${sessionScope.loggedIn }">
 <c:if test="${sessionScope.role=='ROLE_USER' }">
+
 <body style="background-color:rgb(93,241,255)">
 <%@include file="Header.jsp"%>
 <br><br></br></br>
 <table align="center" class="table table-bordered">
-<tr><td colspan="5"><h3 align="center"><b><u>Your confirm Order</u></b></h3></td></tr>
+<tr><td colspan="5"><h3 align="center"><b><u>Your Cart</u></b></h3></td></tr>
 <tr>
 	<td><b>Product Name</b></td>
 	<td><b>Price</b></td>
 	<td><b>Quantity</b></td>
 	<td><b>Total Price</b></td>
+	<td><b>Operations</b></td>
 </tr>
 <c:forEach items="${cartItemList}" var="cartItemList">
+<form action="<c:url value="/UpdateCartItem/${cartItemList.cartItemId }"/>" method="post">
 <tr>
 	<td>${cartItemList.productName }</td>
 	<td>${cartItemList.price }</td>
-	<td>${cartItemList.quantity }</td>
+	<td><input type="text" value="${cartItemList.quantity }" name="quantity" required/></td>
 	<td>${cartItemList.quantity*cartItemList.price }</td>
+	<td>
+		<h4><font color="green"><b>Confirmed</b></font></h4>	
+		<input type="submit" value="UPDATE" class="btn btn-primary"/>
+		<a href="<c:url value="/deleteCartItem/${cartItemList.cartItemId}"/>" class="btn btn-danger">Delete</a>
+	</td>
 </tr>
+</form>
 </c:forEach>
 <tr>
 	<td colspan="3"><b>Grand Total</b></td>
 	<td><b>${grandTotalPrice}</b></td>
 </tr>
 <tr>
-	<td colspan="3"><a href="<c:url value="/Cart"/>" class="btn btn-warning">Move To Cart</a></td>
-	<td colspan="2"><a href="<c:url value="/ConfirmYourOrder"/>" class="btn btn-success">Confirm Your Order</a></td>
+	<td colspan="3"><a href="<c:url value="/ProductCatalog"/>" class="btn btn-warning">Continue Shopping</a></td>
+	<td colspan="2"><a href="<c:url value="/CheckOut"/>" class="btn btn-success">Checkout</a></td>
 </tr>
-</table><%@include file="/WEB-INF/views/Footer.jsp" %></body></c:if></c:if>
+</table>
+<%@include file="/WEB-INF/views/Footer.jsp" %>
+</body></c:if></c:if>

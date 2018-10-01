@@ -57,6 +57,21 @@ public class CartController
 		return "Cart";
 	}
 	
+	@RequestMapping(value="/PaidStatus")
+	public String showManageCartPS(@ModelAttribute("user")User user,HttpSession session,Model m)
+	{
+		CartItem cartItem=new CartItem();
+		m.addAttribute("cartItem",cartItem);
+		
+		String username=(String)session.getAttribute("username");
+		
+		List<CartItem> cartItemList=cartDAO.retrieveCartItems(username);
+		m.addAttribute("cartItemList",cartItemList);
+		m.addAttribute("grandTotalPrice",this.calcGrandTotalValue(cartItemList));
+		
+		return "PaidStatus";
+	}
+	
 	@RequestMapping("/addToCart/{productId}")
 	public String addToCart(@ModelAttribute("product")Product product,@PathVariable("productId")int productId,@RequestParam("quantity")int quantity,@ModelAttribute("user")User user,HttpSession session,Model m)
 	{
@@ -135,6 +150,27 @@ public class CartController
 		return "Cart";
 	}
 	
+	@RequestMapping(value="/PaidStatus/{cartItemId}")
+	public String PaidStatus(@PathVariable("cartItemId")int cartItemId,Model m,HttpSession session)
+	{
+		CartItem cartItem=cartDAO.getCartItem(cartItemId);
+		cartItem.setPstatus("P");
+		cartDAO.updateCartItem(cartItem);
+		
+		String username=(String)session.getAttribute("username");
+		
+		List<CartItem> listCartItems=cartDAO.retrieveCartItems(username);
+		m.addAttribute("cartItems",cartDAO.retrieveCartItemsPaid(username));
+		m.addAttribute("grandTotalPrice",this.calcGrandTotalValue(listCartItems));
+		m.addAttribute("cartItem",cartItem);
+		
+		
+		List<CartItem> cartItemList=cartDAO.retrieveCartItemsPaid(username);
+		m.addAttribute("cartItemList",cartItemList);
+		m.addAttribute("grandTotalPrice",this.calcGrandTotalValue(cartItemList));
+		return "PaidStatus";
+	}
+	
 	@RequestMapping(value="/CheckOut")
 	public String CheckOut(@ModelAttribute("cartItem")CartItem cartItem,HttpSession session,Model m)
 	{
@@ -142,11 +178,11 @@ public class CartController
 		
 		m.addAttribute("cartItem",cartItem);
 		
-		List<CartItem> cartItemList=cartDAO.retrieveCartItems(username);
+		List<CartItem> cartItemList=cartDAO.retrieveCartItemsPaid(username);
 		m.addAttribute("cartItemList",cartItemList);
 		m.addAttribute("grandTotalPrice",this.calcGrandTotalValue(cartItemList));
 		
-		m.addAttribute("cartItems",cartDAO.retrieveCartItems(username));
+		m.addAttribute("cartItems",cartDAO.retrieveCartItemsPaid(username));
 		m.addAttribute("grandTotalPrice",this.calcGrandTotalValue(cartItemList));
 		
 		return "OrderDetail";

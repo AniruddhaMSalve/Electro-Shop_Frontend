@@ -125,6 +125,7 @@
 	<td><input type="text" value="${cartItemList.quantity }" name="quantity" required/></td>
 	<td>${cartItemList.quantity*cartItemList.price }</td>
 	<td>
+		<a href="<c:url value="/PaidStatus/${cartItemList.cartItemId}"/>" class="btn btn-warning">Confirm Order</a>
 		<input type="submit" value="UPDATE" class="btn btn-primary"/>
 		<a href="<c:url value="/deleteCartItem/${cartItemList.cartItemId}"/>" class="btn btn-danger">Delete</a>
 	</td>
